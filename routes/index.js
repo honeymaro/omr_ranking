@@ -84,7 +84,7 @@ var fnGetGradeCut = function (callback) {
       var stdRank = rate.map(function (r) {
         return {
           grade: rate.indexOf(r) + 1,
-          rank: response.length - parseInt(response.length * r),
+          rank: response.length - parseInt(response.length * r) + 1,
           score: response[response.length - parseInt(response.length * r) - 1].score
         }
       });
