@@ -1,16 +1,101 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-  <script>
-    setTimeout(() => {
-      location.reload();
-    }, 10000);
-  </script>
+
+<head>
+	<title>
+		<%= title %>
+	</title>
+	<link rel='stylesheet' href='/css/style.css' />
+	<link rel="stylesheet" type="text/css" href="//kenwheeler.github.io/slick//slick/slick.css" />
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="leaderboard-title">
+			LEADERBOARD
+		</div>
+		<div class="leaderboard-slick">
+			<div>
+				<div class="leaderboard-subtitle">
+					등급컷
+				</div>
+				<table class="leaderboard-table leaderboard-grade">
+					<tr>
+						<td>등급</td>
+						<td>원점수</td>
+					</tr>
+				</table>
+			</div>
+			<div>
+				<div class="leaderboard-subtitle">
+					순위표
+				</div>
+				<table class="leaderboard-table leaderboard-rank">
+					<tr>
+						<td>순위</td>
+						<td>이름</td>
+						<td>점수</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+ crossorigin="anonymous"></script>
+<script type="text/javascript" src="//kenwheeler.github.io/slick//slick/slick.js"></script>
+<script>
+	var gradeHTML = $(".leaderboard-grade").html();
+	var rankHTML = $(".leaderboard-rank").html();
+	var fnRenewBoard = function () {
+		$.ajax({
+			url: "/api/ranking/getRank?length=10",
+			processData: false,
+			contentType: false,
+			dataType: "json",
+			cache: false,
+			type: "GET"
+		}).done(function (data) {
+			$(".leaderboard-grade").html(gradeHTML);
+			data.gradeCut.map(function (item, index) {
+				$(".leaderboard-grade").append(`
+					<tr>
+						<td>${item.grade}</td>
+						<td>${item.score}</td>
+					</tr>
+				`);
+			});
+
+
+			$(".leaderboard-rank").html(rankHTML);
+			data.ranking.map(function (item, index) {
+				$(".leaderboard-rank").append(`
+					<tr>
+						<td>${index + 1}</td>
+						<td>${item.name}</td>
+						<td>${item.score}</td>
+					</tr>
+				`);
+			});
+		});
+	}
+	$(".leaderboard-slick").slick({
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		autoplay: true,
+		speed: 1000,
+		autoplaySpeed: 10000,
+	});
+	$(".leaderboard-slick").on("afterChange", function (slick, currentSlide) {
+		fnRenewBoard();
+	});
+	fnRenewBoard();
+
+	// setTimeout(() => {
+	// 	location.reload();
+	// }, 10000);
+</script>
+
 </html>
