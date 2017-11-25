@@ -55,7 +55,8 @@ router.get('/ranking/getRank', function (req, res, next) {
         isDuplicated = usedId.indexOf(item.id) >= 0;
         console.log(item);
         usedId.push(item.id);
-        return !isDuplicated;
+        return 1; //임시로 id 구별 뺌
+        // return !isDuplicated;
       }).filter((item, index) => index >= start && index < start + length);
       fnGetGradeCut(function (stdRank) {
         res.send({
@@ -78,7 +79,8 @@ var fnGetGradeCut = function (callback) {
         isDuplicated = usedId.indexOf(item.id) >= 0;
         console.log(item);
         usedId.push(item.id);
-        return !isDuplicated;
+        return 1; //임시로 id 구별 뺌
+        // return !isDuplicated;
       });
       var rate = [.96, .89, .77, .60, .40, .23, .11, .04, 0];
       var stdRank = rate.map(function (r) {
@@ -96,7 +98,7 @@ var fnGetGradeCut = function (callback) {
 router.get('/ranking/getGradeCut', function (req, res, next) {
   fnGetGradeCut(function (stdRank) {
     res.send(stdRank);
-  })
+  });
 })
 
 router.post('/ranking/submit', uploading.none(), function (req, res, next) {
