@@ -50,6 +50,7 @@ router.get('/ranking/getRank', function (req, res, next) {
     builder.sort("score", "desc");
     builder.callback(function (err, response) {
       var usedId = [];
+      var totalCount = response.length;
       response = response.filter(function (item, index) {
         var isDuplicated = 0;
         isDuplicated = usedId.indexOf(item.id) >= 0;
@@ -61,7 +62,8 @@ router.get('/ranking/getRank', function (req, res, next) {
       fnGetGradeCut(function (stdRank) {
         res.send({
           ranking: response,
-          gradeCut: stdRank
+          gradeCut: stdRank,
+          totalCount: totalCount
         });
 
       })

@@ -15,6 +15,12 @@
 		<div class="leaderboard-title">
 			LEADERBOARD
 		</div>
+		<div class="leaderboard-subtitle">
+			총 응시생
+		</div>
+		<div class="leaderboard-subtitle leaderboard-count" style="font-size: 4.5em;">
+			0
+		</div>
 		<div class="leaderboard-slick">
 			<div>
 				<div class="leaderboard-subtitle">
@@ -79,6 +85,8 @@
 						`);
 				// <td>${item.name}</td>
 			});
+
+			$(".leaderboard-count").text(data.totalCount);
 		});
 	}
 	$(".leaderboard-slick").slick({
